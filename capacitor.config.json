@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Foobies",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
