@@ -13,8 +13,8 @@ import {
 import {bookmark} from "ionicons/icons";
 import React from "react";
 import homeStyle from './Home.module.scss'
-import {dummySlider} from "../data/dummy";
-import {Autoplay, Pagination} from "swiper";
+import {dummySlider, dummyHeader} from "../data/dummy";
+import {Autoplay, FreeMode, Pagination} from "swiper";
 import { Swiper, SwiperSlide} from "swiper/react/swiper-react";
 import 'swiper/swiper.scss';
 import 'swiper/swiper-bundle.css';
@@ -52,8 +52,22 @@ const Home: React.FC = () => {
           </IonRow>
         </IonGrid>
 
-        <Swiper>
-
+        <Swiper
+          modules={[FreeMode]}
+          freeMode={true}
+          slidesPerView={3}
+        >
+          {dummyHeader.map((header, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <IonCard>
+                  <IonCardContent>
+                    <IonCardTitle className={'title ion-text-center'}>{header.name}</IonCardTitle>
+                  </IonCardContent>
+                </IonCard>
+              </SwiperSlide>
+            )
+          })}
         </Swiper>
 
         <Swiper
@@ -70,7 +84,7 @@ const Home: React.FC = () => {
             return(
               <SwiperSlide key={index} className={'ion-margin-bottom'}>
                 <IonCard>
-                  <img src={ 'assets/example/burgers.webp' } alt={card.name} className={'image'}/>
+                  <img src={ card.photoUrl } alt={card.name} className={'image'}/>
                   <IonCardContent>
                     <IonCardTitle className={'title'}>{card.name}</IonCardTitle>
                   </IonCardContent>

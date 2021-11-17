@@ -8,21 +8,54 @@ export const dummySlider: Array<Dummy> = [
   {
     id: 0,
     name: 'burgers',
-    photoUrl: 'assets/burgers.webp'
+    photoUrl: 'assets/example/burgers.webp'
   },
   {
     id: 1,
     name: 'burgers1',
-    photoUrl: 'assets/burgers.png'
+    photoUrl: 'assets/example/burgers1.png'
   },
   {
     id: 2,
     name: 'chicken',
-    photoUrl: '/assets/chicken.png'
+    photoUrl: 'assets/example/chicken.png'
   },
   {
     id: 3,
     name: 'chicken2',
-    photoUrl: '/assets/chicken2.jpeg'
+    photoUrl: 'assets/example/chicken2.jpeg'
   }
+]
+
+export const dummyHeader: Array<Dummy> = [
+  {
+    id: 0,
+    name: 'Chicken',
+    photoUrl: 'assets/burgers.webp'
+  },
+  {
+    id: 1,
+    name: 'Meat',
+    photoUrl: 'assets/burgers.webp'
+  },
+  {
+    id: 2,
+    name: 'Fish',
+    photoUrl: 'assets/burgers.webp'
+  },
+  {
+    id: 3,
+    name: 'Milkshake',
+    photoUrl: 'assets/burgers.webp'
+  },
+  {
+    id: 4,
+    name: 'Tea',
+    photoUrl: 'assets/burgers.webp'
+  },
+  {
+    id: 5,
+    name: 'Coffee',
+    photoUrl: 'assets/burgers.webp'
+  },
 ]
