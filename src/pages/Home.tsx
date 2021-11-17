@@ -1,22 +1,86 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import {
+  IonBadge,
+  IonButton,
+  IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol,
+  IonContent, IonGrid,
+  IonHeader,
+  IonIcon, IonNote,
+  IonPage,
+  IonRow, IonSearchbar,
+  IonTitle,
+  IonToolbar
+} from '@ionic/react';
+import {bookmark} from "ionicons/icons";
+import React from "react";
+import homeStyle from './Home.module.scss'
+import {dummySlider} from "../data/dummy";
+import {Autoplay, Pagination} from "swiper";
+import { Swiper, SwiperSlide} from "swiper/react/swiper-react";
+import 'swiper/swiper.scss';
+import 'swiper/swiper-bundle.css';
 
 const Home: React.FC = () => {
+
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader className={'ion-no-margin'}>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>
+            Home Page
+            <p className={'ion-no-margin'}>Name </p>
+          </IonTitle>
+
+          <IonButtons slot={'end'}>
+            <IonButton>
+              <IonBadge slot={'start'}>0</IonBadge> &nbsp;
+              Bookmark
+              <IonIcon slot={'end'} icon={bookmark}/>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+        <IonGrid>
+          <IonRow>
+            <IonCol>
+              <div className={ homeStyle.search }>
+                <IonSearchbar
+                  placeholder={'I am hungry'}/>
+              </div>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+
+        <Swiper>
+
+        </Swiper>
+
+        <Swiper
+          modules={[Pagination, Autoplay]}
+          spaceBetween={10}
+          slidesPerView={2}
+          loop={true}
+          lazy={true}
+          pagination={{clickable: true}}
+          autoplay={{"delay": 3000, "disableOnInteraction": false}}
+          onSwiper={(swiper) => console.log(swiper)}>
+
+          {dummySlider.map((card,index) => {
+            return(
+              <SwiperSlide key={index} className={'ion-margin-bottom'}>
+                <IonCard>
+                  <img src={ 'assets/example/burgers.webp' } alt={card.name} className={'image'}/>
+                  <IonCardContent>
+                    <IonCardTitle className={'title'}>{card.name}</IonCardTitle>
+                  </IonCardContent>
+                </IonCard>
+              </SwiperSlide>
+            )
+          })}
+
+        </Swiper>
+
       </IonContent>
     </IonPage>
   );

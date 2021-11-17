@@ -1,0 +1,11 @@
+.search{
+  background-color: var(--ion-toolbar-background);
+  padding-bottom: 0.5rem;
+
+  ion-searchbar{
+    color: white;
+    --background: #adadad;
+    --icon-color: #14e814;
+    --border-radius: 0;
+  }
+}
