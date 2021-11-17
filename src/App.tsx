@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 
@@ -21,19 +21,41 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/custom-tab-bar.css'
 import React from "react";
+import {fastFood, home, medkit, person, restaurant} from "ionicons/icons";
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
+      <IonTabs>
+
+        <IonRouterOutlet>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+        </IonRouterOutlet>
+
+        <IonTabBar slot={'bottom'}>
+          <IonTabButton tab={'home'}>
+            Home <IonIcon icon={home}/>
+          </IonTabButton>
+          <IonTabButton tab={'cook'}>
+            cook <IonIcon icon={restaurant}/>
+          </IonTabButton>
+          <IonTabButton tab={'health'}>
+            Health<IonIcon icon={medkit}/>
+          </IonTabButton>
+          <IonTabButton tab={'profile'}>
+            Profile <IonIcon icon={person}/>
+          </IonTabButton>
+        </IonTabBar>
+
+      </IonTabs>
+
     </IonReactRouter>
   </IonApp>
 );

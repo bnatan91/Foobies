@@ -45,8 +45,7 @@ const Home: React.FC = () => {
           <IonRow>
             <IonCol>
               <div className={ homeStyle.search }>
-                <IonSearchbar
-                  placeholder={'I am hungry'}/>
+                <IonSearchbar placeholder={'I am hungry'}/>
               </div>
             </IonCol>
           </IonRow>
@@ -59,7 +58,7 @@ const Home: React.FC = () => {
         >
           {dummyHeader.map((header, index) => {
             return (
-              <SwiperSlide key={index}>
+              <SwiperSlide key={index} onClick={() => console.log(header.name)}>
                 <IonCard>
                   <IonCardContent>
                     <IonCardTitle className={'title ion-text-center'}>{header.name}</IonCardTitle>
