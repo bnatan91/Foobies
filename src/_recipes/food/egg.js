@@ -1,4 +1,4 @@
-export const egg = {
+export const eggFood = {
     "from": 1,
     "to": 20,
     "count": 10000,

@@ -1,8 +1,17 @@
-export interface Recipe{
+export interface HomeRecipe{
   label: string,
   image: string
 }
 
-export interface Hit{
-  recipe: Array<Recipe>
+export interface HomeLink{
+  href: string,
+}
+
+export interface HomeLinks{
+  self: HomeLink
+}
+
+export interface HomeHit{
+  recipe: Array<HomeRecipe>
+  _links: HomeLinks
 }
