@@ -4,14 +4,14 @@ import {
   IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol,
   IonContent, IonGrid,
   IonHeader,
-  IonIcon, IonNote,
+  IonIcon,
   IonPage,
   IonRow, IonSearchbar,
   IonTitle,
   IonToolbar
 } from '@ionic/react';
 import {bookmark} from "ionicons/icons";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import homeStyle from './Home.module.scss'
 import {dummySlider, dummyHeader} from "../data/dummy";
 import {Autoplay, FreeMode, Pagination} from "swiper";
@@ -19,7 +19,26 @@ import { Swiper, SwiperSlide} from "swiper/react/swiper-react";
 import 'swiper/swiper.scss';
 import 'swiper/swiper-bundle.css';
 
+import {chickenFood} from "../_recipes/food/chicken";
+import {Hit, Recipe} from "../data/response-recipe";
+
 const Home: React.FC = () => {
+
+  const [categorySelected, setCategorySelected] = useState<string>('chicken');
+  const [foodRecipe, setFoodRecipe] = useState<Hit>();
+
+  useEffect(() => {
+    console.log(categorySelected);
+    const temp1 : Recipe = chickenFood.hits[0].recipe;
+
+    // const temp : Hit = chickenFood.hits;
+    // setFoodRecipe(chickenFood.hits as Hit)
+  }, [categorySelected])
+
+  useEffect(() => {
+    const temp = chickenFood.hits[1];
+    console.log(temp.recipe.label);
+  },[])
 
   return (
     <IonPage>
@@ -41,6 +60,7 @@ const Home: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen>
+
         <IonGrid>
           <IonRow>
             <IonCol>
@@ -52,16 +72,58 @@ const Home: React.FC = () => {
         </IonGrid>
 
         <Swiper
+          modules={[Pagination, Autoplay]}
+          spaceBetween={10}
+          slidesPerView={2}
+          loop={true}
+          lazy={true}
+          pagination={{clickable: true}}
+          autoplay={{"delay": 3000, "disableOnInteraction": false}}
+          // onSwiper={(swiper) => console.log(swiper)}
+        >
+          {/*{chickenFood.hits.}*/}
+          {chickenFood.hits.map((recipe, index) => {
+            return(
+              <SwiperSlide key={index} className={'ion-margin-bottom'}>
+                <IonCard>
+                  <img src={ recipe.recipe.image } alt={recipe.recipe.label} className={'image'}/>
+                  <IonCardContent>
+                    <IonCardTitle className={'title'}>{recipe.recipe.label}</IonCardTitle>
+                  </IonCardContent>
+                </IonCard>
+              </SwiperSlide>
+            )
+          })}
+
+          {/*{dummySlider.map((card,index) => {*/}
+          {/*  return(*/}
+          {/*    <SwiperSlide key={index} className={'ion-margin-bottom'}>*/}
+          {/*      <IonCard>*/}
+          {/*        <img src={ card.photoUrl } alt={card.name} className={'image'}/>*/}
+          {/*        <IonCardContent>*/}
+          {/*          <IonCardTitle className={'title'}>{card.name}</IonCardTitle>*/}
+          {/*        </IonCardContent>*/}
+          {/*      </IonCard>*/}
+          {/*    </SwiperSlide>*/}
+          {/*  )*/}
+          {/*})}*/}
+
+        </Swiper>
+
+        <Swiper
           modules={[FreeMode]}
           freeMode={true}
           slidesPerView={3}
+          // onClick={(swiper, event) => {console.log(swiper); console.log(event);}}
         >
           {dummyHeader.map((header, index) => {
             return (
-              <SwiperSlide key={index} onClick={() => console.log(header.name)}>
+              <SwiperSlide key={index} onClick={() => setCategorySelected(header.name)}>
                 <IonCard>
                   <IonCardContent>
-                    <IonCardTitle className={'title ion-text-center'}>{header.name}</IonCardTitle>
+                    <IonCardTitle className={'title ion-text-center'}>
+                      {header.name}
+                    </IonCardTitle>
                   </IonCardContent>
                 </IonCard>
               </SwiperSlide>
@@ -77,7 +139,8 @@ const Home: React.FC = () => {
           lazy={true}
           pagination={{clickable: true}}
           autoplay={{"delay": 3000, "disableOnInteraction": false}}
-          onSwiper={(swiper) => console.log(swiper)}>
+          // onSwiper={(swiper) => console.log(swiper)}
+        >
 
           {dummySlider.map((card,index) => {
             return(
@@ -93,6 +156,8 @@ const Home: React.FC = () => {
           })}
 
         </Swiper>
+
+
 
       </IonContent>
     </IonPage>
