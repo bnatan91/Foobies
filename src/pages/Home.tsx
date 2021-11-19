@@ -38,7 +38,7 @@ const Home: React.FC = () => {
       }
     }
     // setSlideFoodRecipe(foodRecipes.chicken.hits)
-    // CHANGE
+    // CHANGE TEST
 
   }, [categorySelected])
 
