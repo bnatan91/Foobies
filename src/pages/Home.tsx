@@ -20,24 +20,30 @@ import 'swiper/swiper.scss';
 import 'swiper/swiper-bundle.css';
 
 import {chickenFood} from "../_recipes/food/chicken";
-import {Hit, Recipe} from "../data/response-recipe";
+import {foodRecipes} from "../_recipes/food-recipes";
+import {Recipe} from "../data/response-recipe";
 
 const Home: React.FC = () => {
 
   const [categorySelected, setCategorySelected] = useState<string>('chicken');
-  const [foodRecipe, setFoodRecipe] = useState<Hit>();
+  const [slideFoodRecipe, setSlideFoodRecipe] = useState([]);
 
   useEffect(() => {
     console.log(categorySelected);
-    const temp1 : Recipe = chickenFood.hits[0].recipe;
 
-    // const temp : Hit = chickenFood.hits;
-    // setFoodRecipe(chickenFood.hits as Hit)
+    const tempFood = () => {
+      switch (categorySelected){
+        case 'chicken': return foodRecipes.chicken.hits
+        case 'egg' : return foodRecipes.egg.hits
+      }
+    }
+    // setSlideFoodRecipe(foodRecipes.chicken.hits)
+    // CHANGE
+
   }, [categorySelected])
 
   useEffect(() => {
-    const temp = chickenFood.hits[1];
-    console.log(temp.recipe.label);
+    console.log(foodRecipes.chicken.hits);
   },[])
 
   return (
@@ -72,6 +78,26 @@ const Home: React.FC = () => {
         </IonGrid>
 
         <Swiper
+          modules={[FreeMode]}
+          freeMode={true}
+          slidesPerView={3}
+        >
+          {dummyHeader.map((header, index) => {
+            return (
+              <SwiperSlide key={index} onClick={() => setCategorySelected(header.name)}>
+                <IonCard>
+                  <IonCardContent>
+                    <IonCardTitle className={'title ion-text-center'}>
+                      {header.name}
+                    </IonCardTitle>
+                  </IonCardContent>
+                </IonCard>
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+
+        <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={10}
           slidesPerView={2}
@@ -85,7 +111,7 @@ const Home: React.FC = () => {
           {chickenFood.hits.map((recipe, index) => {
             return(
               <SwiperSlide key={index} className={'ion-margin-bottom'}>
-                <IonCard>
+                <IonCard onClick={() => console.log(recipe.recipe.label)}>
                   <img src={ recipe.recipe.image } alt={recipe.recipe.label} className={'image'}/>
                   <IonCardContent>
                     <IonCardTitle className={'title'}>{recipe.recipe.label}</IonCardTitle>
