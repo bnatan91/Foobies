@@ -35,7 +35,7 @@ export const dummyHeader: Array<Dummy> = [
   },
   {
     id: 1,
-    name: 'Meat',
+    name: 'Egg',
     photoUrl: 'assets/burgers.webp'
   },
   {

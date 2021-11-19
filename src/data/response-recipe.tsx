@@ -12,6 +12,6 @@ export interface HomeLinks{
 }
 
 export interface HomeHit{
-  recipe: Array<HomeRecipe>
+  recipe: HomeRecipe
   _links: HomeLinks
 }

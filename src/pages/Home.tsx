@@ -4,7 +4,7 @@ import {
   IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol,
   IonContent, IonGrid,
   IonHeader,
-  IonIcon,
+  IonIcon, IonImg,
   IonPage,
   IonRow, IonSearchbar,
   IonTitle,
@@ -13,48 +13,40 @@ import {
 import {bookmark} from "ionicons/icons";
 import React, {useEffect, useState} from "react";
 import homeStyle from './Home.module.scss'
-import {dummySlider, dummyHeader, Dummy} from "../data/dummy";
 import {Autoplay, FreeMode, Pagination} from "swiper";
 import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
 import 'swiper/swiper.scss';
 import 'swiper/swiper-bundle.css';
 
-import {chickenFood} from "../_recipes/food/chicken";
+import {foodHeader, foodRecipes} from "../_recipes/food-recipes";
 
-import chicken from '../_recipes/food/chicken.json';
-import egg from '../_recipes/food/egg.json';
-
+import {HomeHit} from "../data/response-recipe";
 const Home: React.FC = () => {
 
   const [categorySelected, setCategorySelected] = useState<string>('chicken');
-  // const [slideFoodRecipe, setSlideFoodRecipe] = useState<Array<Recipe>>([]);
-  const [slideHeader, setSlideHeader] = useState<Array<Dummy>>([])
-  const [dataSlider, setDataSlider] = useState([{}]);
+  const [slideHeader, setSlideHeader] = useState<Array<string>>([]);
+  const [dataSlider, setDataSlider] = useState<Array<HomeHit>>([]);
 
   useEffect(() => {
     console.log(categorySelected);
 
-    if (categorySelected === "chicken") {
-      setDataSlider(chicken.hits);
-      dataSlider.map((recipe, index) => {
-        console.log(recipe)
-      });
-    } else if (categorySelected === "egg") {
-      setDataSlider(egg.hits);
+    switch (categorySelected.toLowerCase()){
+      case "chicken" : setDataSlider(foodRecipes.chicken.hits); break;
+      case "egg" : setDataSlider(foodRecipes.egg.hits); break;
+      case "fish" : setDataSlider(foodRecipes.fish.hits); break;
+      case "meat" : setDataSlider(foodRecipes.meat.hits); break;
+      case "pasta" : setDataSlider(foodRecipes.pasta.hits); break;
+      case "rice" : setDataSlider(foodRecipes.rice.hits); break;
+      default : setDataSlider(foodRecipes.chicken.hits); break;
     }
-    // setAsd(getHits);
 
-
-    // console.log(tempFood)
-    // setSlideFoodRecipe(tempFood);
-    // setSlideHeader(JSON.parse(chicken))
-  }, [categorySelected])
+  }, [categorySelected]);
 
   useEffect(() => {
     // console.log(foodRecipes.chicken.hits);
-    setSlideHeader(dummyHeader)
-  }, [])
-
+    setSlideHeader(foodHeader)
+  }, []);
+// splash screen - login page - homepage
   return (
     <IonPage>
       <IonHeader className={'ion-no-margin'}>
@@ -85,18 +77,20 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-
+        <h1>Food</h1>
         <Swiper
           modules={[FreeMode]}
           freeMode={true}
           slidesPerView={3}>
           {slideHeader.map((header, index) => {
             return (
-              <SwiperSlide key={index} onClick={() => setCategorySelected(header.name)}>
+              <SwiperSlide
+                key={index}
+                onClick={() => setCategorySelected(header)}>
                 <IonCard>
                   <IonCardContent>
                     <IonCardTitle className={'title ion-text-center'}>
-                      {header.name}
+                      {header}
                     </IonCardTitle>
                   </IonCardContent>
                 </IonCard>
@@ -113,15 +107,13 @@ const Home: React.FC = () => {
           lazy={true}
           pagination={{clickable: true}}
           autoplay={{"delay": 3000, "disableOnInteraction": false}}
-          // onSwiper={(swiper) => console.log(swiper)}
         >
-
           {
-            chickenFood.hits.map((recipe, index) => {
+            dataSlider.map((recipe, index) => {
             return (
               <SwiperSlide key={index} className={'ion-margin-bottom'}>
                 <IonCard onClick={() => console.log(recipe.recipe.label)}>
-                  <img src={recipe.recipe.image} alt={recipe.recipe.label} className={'image'}/>
+                  <IonImg src={recipe.recipe.image} alt={recipe.recipe.label} className={'image'}/>
                   <IonCardContent>
                     <IonCardTitle className={'title'}>{recipe.recipe.label}</IonCardTitle>
                   </IonCardContent>
@@ -130,55 +122,53 @@ const Home: React.FC = () => {
             )
           }
           )}
-
         </Swiper>
 
-        <Swiper
-          modules={[FreeMode]}
-          freeMode={true}
-          slidesPerView={3}
-          // onClick={(swiper, event) => {console.log(swiper); console.log(event);}}
-        >
-          {dummyHeader.map((header, index) => {
-            return (
-              <SwiperSlide key={index} onClick={() => setCategorySelected(header.name)}>
-                <IonCard>
-                  <IonCardContent>
-                    <IonCardTitle className={'title ion-text-center'}>
-                      {header.name}
-                    </IonCardTitle>
-                  </IonCardContent>
-                </IonCard>
-              </SwiperSlide>
-            )
-          })}
-        </Swiper>
+        {/*<Swiper*/}
+        {/*  modules={[FreeMode]}*/}
+        {/*  freeMode={true}*/}
+        {/*  slidesPerView={3}*/}
+        {/*  // onClick={(swiper, event) => {console.log(swiper); console.log(event);}}*/}
+        {/*>*/}
+        {/*  {dummyHeader.map((header, index) => {*/}
+        {/*    return (*/}
+        {/*      <SwiperSlide key={index} onClick={() => setCategorySelected(header.name)}>*/}
+        {/*        <IonCard>*/}
+        {/*          <IonCardContent>*/}
+        {/*            <IonCardTitle className={'title ion-text-center'}>*/}
+        {/*              {header.name}*/}
+        {/*            </IonCardTitle>*/}
+        {/*          </IonCardContent>*/}
+        {/*        </IonCard>*/}
+        {/*      </SwiperSlide>*/}
+        {/*    )*/}
+        {/*  })}*/}
+        {/*</Swiper>*/}
 
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={10}
-          slidesPerView={2}
-          loop={true}
-          lazy={true}
-          pagination={{clickable: true}}
-          autoplay={{"delay": 3000, "disableOnInteraction": false}}
-          // onSwiper={(swiper) => console.log(swiper)}
-        >
+        {/*<Swiper*/}
+        {/*  modules={[Pagination, Autoplay]}*/}
+        {/*  spaceBetween={10}*/}
+        {/*  slidesPerView={2}*/}
+        {/*  loop={true}*/}
+        {/*  lazy={true}*/}
+        {/*  pagination={{clickable: true}}*/}
+        {/*  autoplay={{"delay": 3000, "disableOnInteraction": false}}*/}
+        {/*>*/}
 
-          {dummySlider.map((card, index) => {
-            return (
-              <SwiperSlide key={index} className={'ion-margin-bottom'}>
-                <IonCard>
-                  <img src={card.photoUrl} alt={card.name} className={'image'}/>
-                  <IonCardContent>
-                    <IonCardTitle className={'title'}>{card.name}</IonCardTitle>
-                  </IonCardContent>
-                </IonCard>
-              </SwiperSlide>
-            )
-          })}
+        {/*  {dummySlider.map((card, index) => {*/}
+        {/*    return (*/}
+        {/*      <SwiperSlide key={index} className={'ion-margin-bottom'}>*/}
+        {/*        <IonCard>*/}
+        {/*          <img src={card.photoUrl} alt={card.name} className={'image'}/>*/}
+        {/*          <IonCardContent>*/}
+        {/*            <IonCardTitle className={'title'}>{card.name}</IonCardTitle>*/}
+        {/*          </IonCardContent>*/}
+        {/*        </IonCard>*/}
+        {/*      </SwiperSlide>*/}
+        {/*    )*/}
+        {/*  })}*/}
 
-        </Swiper>
+        {/*</Swiper>*/}
 
 
       </IonContent>
