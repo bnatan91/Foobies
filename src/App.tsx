@@ -23,7 +23,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './theme/custom-tab-bar.css'
 import React from "react";
-import {fastFood, home, medkit, person, restaurant} from "ionicons/icons";
+import {home, medkit, person, restaurant} from "ionicons/icons";
+import Recipe from "./pages/Recipe";
 
 const App: React.FC = () => (
   <IonApp>
@@ -31,12 +32,9 @@ const App: React.FC = () => (
       <IonTabs>
 
         <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
+          <Route exact path="/home" component={Home}/>
+          <Route exact path={'/recipe/:id'} component={Recipe}/>
+          <Redirect exact path={'/'} to={'/home'}/>
         </IonRouterOutlet>
 
         <IonTabBar slot={'bottom'}>

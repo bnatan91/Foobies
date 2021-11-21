@@ -1,10 +1,10 @@
 import {
   IonBadge,
   IonButton,
-  IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol,
+  IonButtons, IonCol,
   IonContent, IonGrid,
   IonHeader,
-  IonIcon, IonImg,
+  IonIcon,
   IonPage,
   IonRow, IonSearchbar,
   IonTitle,
@@ -13,38 +13,64 @@ import {
 import {bookmark} from "ionicons/icons";
 import React, {useEffect, useState} from "react";
 import homeStyle from './Home.module.scss'
-import {Autoplay, FreeMode, Pagination} from "swiper";
-import {Swiper, SwiperSlide} from "swiper/react/swiper-react";
 import 'swiper/swiper.scss';
 import 'swiper/swiper-bundle.css';
 
 import {foodHeader, foodRecipes} from "../_recipes/food-recipes";
+import {drinksHeader, drinksRecipes} from "../_recipes/drinks-recipes";
 
 import {HomeHit} from "../data/response-recipe";
+import HeaderSlide from "../components/HeaderSlide";
+import DataSlider from "../components/DataSlider";
+import {useHistory} from "react-router";
 const Home: React.FC = () => {
 
-  const [categorySelected, setCategorySelected] = useState<string>('chicken');
-  const [slideHeader, setSlideHeader] = useState<Array<string>>([]);
-  const [dataSlider, setDataSlider] = useState<Array<HomeHit>>([]);
+  const history = useHistory();
 
-  useEffect(() => {
-    console.log(categorySelected);
+  // Food Slider
+  const [foodDataSlider, setFoodDataSlider] = useState<Array<HomeHit>>([]);
+  // Drinks Slider
+  const [drinksDataSlider, setDrinksDataSlider] = useState<Array<HomeHit>>([])
+  // dessert Slider
+  const [dessertDataSlider, setDessertDataSlider] = useState<Array<HomeHit>>([])
 
-    switch (categorySelected.toLowerCase()){
-      case "chicken" : setDataSlider(foodRecipes.chicken.hits); break;
-      case "egg" : setDataSlider(foodRecipes.egg.hits); break;
-      case "fish" : setDataSlider(foodRecipes.fish.hits); break;
-      case "meat" : setDataSlider(foodRecipes.meat.hits); break;
-      case "pasta" : setDataSlider(foodRecipes.pasta.hits); break;
-      case "rice" : setDataSlider(foodRecipes.rice.hits); break;
-      default : setDataSlider(foodRecipes.chicken.hits); break;
+  const foodCategoryHandler = (selectedCategory: string) => {
+    console.log(selectedCategory);
+    switch (selectedCategory.toLowerCase()){
+      case "chicken" : setFoodDataSlider(foodRecipes.chicken.hits); break;
+      case "egg" : setFoodDataSlider(foodRecipes.egg.hits); break;
+      case "fish" : setFoodDataSlider(foodRecipes.fish.hits); break;
+      case "meat" : setFoodDataSlider(foodRecipes.meat.hits); break;
+      case "pasta" : setFoodDataSlider(foodRecipes.pasta.hits); break;
+      case "rice" : setFoodDataSlider(foodRecipes.rice.hits); break;
+      default : setFoodDataSlider(foodRecipes.chicken.hits); break;
     }
+  }
 
-  }, [categorySelected]);
+  const drinksCategoryHandler = (selectedCategory: string) => {
+    console.log(selectedCategory);
+    switch (selectedCategory.toLowerCase()) {
+      case 'boba': setDrinksDataSlider(drinksRecipes.boba.hits); break;
+      case 'cocktail': setDrinksDataSlider(drinksRecipes.cocktail.hits); break;
+      case 'coffee': setDrinksDataSlider(drinksRecipes.coffee.hits); break;
+      case 'juice': setDrinksDataSlider(drinksRecipes.juice.hits); break;
+      case 'milk': setDrinksDataSlider(drinksRecipes.milk.hits); break;
+      case 'milkshake': setDrinksDataSlider(drinksRecipes.milkshake.hits); break;
+      case 'thai tea': setDrinksDataSlider(drinksRecipes.thai_tea.hits); break;
+      default: setDrinksDataSlider(drinksRecipes.boba.hits); break;
+    }
+  }
+
+  const goToRecipeHandler = (href: string) => {
+    // console.log(href);  // Raw URL to JSON
+    const id = href.split('?')[0].split('/')[6];
+    // console.log(id);
+    history.push(`/recipe/${id}`);
+  }
 
   useEffect(() => {
-    // console.log(foodRecipes.chicken.hits);
-    setSlideHeader(foodHeader)
+    setFoodDataSlider(foodRecipes.chicken.hits);
+    setDrinksDataSlider(drinksRecipes.boba.hits);
   }, []);
 // splash screen - login page - homepage
   return (
@@ -77,99 +103,29 @@ const Home: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        <h1>Food</h1>
-        <Swiper
-          modules={[FreeMode]}
-          freeMode={true}
-          slidesPerView={3}>
-          {slideHeader.map((header, index) => {
-            return (
-              <SwiperSlide
-                key={index}
-                onClick={() => setCategorySelected(header)}>
-                <IonCard>
-                  <IonCardContent>
-                    <IonCardTitle className={'title ion-text-center'}>
-                      {header}
-                    </IonCardTitle>
-                  </IonCardContent>
-                </IonCard>
-              </SwiperSlide>
-            )
-          })}
-        </Swiper>
 
-        <Swiper
-          modules={[Pagination, Autoplay]}
-          spaceBetween={10}
-          slidesPerView={2}
-          loop={true}
-          lazy={true}
-          pagination={{clickable: true}}
-          autoplay={{"delay": 3000, "disableOnInteraction": false}}
-        >
-          {
-            dataSlider.map((recipe, index) => {
-            return (
-              <SwiperSlide key={index} className={'ion-margin-bottom'}>
-                <IonCard onClick={() => console.log(recipe.recipe.label)}>
-                  <IonImg src={recipe.recipe.image} alt={recipe.recipe.label} className={'image'}/>
-                  <IonCardContent>
-                    <IonCardTitle className={'title'}>{recipe.recipe.label}</IonCardTitle>
-                  </IonCardContent>
-                </IonCard>
-              </SwiperSlide>
-            )
-          }
-          )}
-        </Swiper>
+        <h3>Food</h3>
+        <HeaderSlide
+          slideHeader={foodHeader}
+          setCategory={foodCategoryHandler}/>
 
-        {/*<Swiper*/}
-        {/*  modules={[FreeMode]}*/}
-        {/*  freeMode={true}*/}
-        {/*  slidesPerView={3}*/}
-        {/*  // onClick={(swiper, event) => {console.log(swiper); console.log(event);}}*/}
-        {/*>*/}
-        {/*  {dummyHeader.map((header, index) => {*/}
-        {/*    return (*/}
-        {/*      <SwiperSlide key={index} onClick={() => setCategorySelected(header.name)}>*/}
-        {/*        <IonCard>*/}
-        {/*          <IonCardContent>*/}
-        {/*            <IonCardTitle className={'title ion-text-center'}>*/}
-        {/*              {header.name}*/}
-        {/*            </IonCardTitle>*/}
-        {/*          </IonCardContent>*/}
-        {/*        </IonCard>*/}
-        {/*      </SwiperSlide>*/}
-        {/*    )*/}
-        {/*  })}*/}
-        {/*</Swiper>*/}
+        <DataSlider
+          slideData={foodDataSlider}
+          goToRecipe={goToRecipeHandler}/>
 
-        {/*<Swiper*/}
-        {/*  modules={[Pagination, Autoplay]}*/}
-        {/*  spaceBetween={10}*/}
-        {/*  slidesPerView={2}*/}
-        {/*  loop={true}*/}
-        {/*  lazy={true}*/}
-        {/*  pagination={{clickable: true}}*/}
-        {/*  autoplay={{"delay": 3000, "disableOnInteraction": false}}*/}
-        {/*>*/}
+        <h3>Drinks</h3>
+        <HeaderSlide
+          slideHeader={drinksHeader}
+          setCategory={drinksCategoryHandler}/>
 
-        {/*  {dummySlider.map((card, index) => {*/}
-        {/*    return (*/}
-        {/*      <SwiperSlide key={index} className={'ion-margin-bottom'}>*/}
-        {/*        <IonCard>*/}
-        {/*          <img src={card.photoUrl} alt={card.name} className={'image'}/>*/}
-        {/*          <IonCardContent>*/}
-        {/*            <IonCardTitle className={'title'}>{card.name}</IonCardTitle>*/}
-        {/*          </IonCardContent>*/}
-        {/*        </IonCard>*/}
-        {/*      </SwiperSlide>*/}
-        {/*    )*/}
-        {/*  })}*/}
+        <DataSlider
+          slideData={drinksDataSlider}
+        goToRecipe={goToRecipeHandler}/>
 
-        {/*</Swiper>*/}
 
+
+
+        <br/><br/>
 
       </IonContent>
     </IonPage>
