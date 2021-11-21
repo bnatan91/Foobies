@@ -23,6 +23,7 @@ import {HomeHit} from "../data/response-recipe";
 import HeaderSlide from "../components/HeaderSlide";
 import DataSlider from "../components/DataSlider";
 import {useHistory} from "react-router";
+import AppBar from "../components/AppBar";
 const Home: React.FC = () => {
 
   const history = useHistory();
@@ -75,22 +76,8 @@ const Home: React.FC = () => {
 // splash screen - login page - homepage
   return (
     <IonPage>
-      <IonHeader className={'ion-no-margin'}>
-        <IonToolbar>
-          <IonTitle>
-            Home Page
-            <p className={'ion-no-margin'}>Name </p>
-          </IonTitle>
 
-          <IonButtons slot={'end'}>
-            <IonButton>
-              <IonBadge slot={'start'}>0</IonBadge> &nbsp;
-              Bookmark
-              <IonIcon slot={'end'} icon={bookmark}/>
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <AppBar title={'Home Page'}/>
 
       <IonContent fullscreen>
 
