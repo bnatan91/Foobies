@@ -1,6 +1,13 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "Foobies",
-	"webDir": "build",
-	"bundledWebRuntime": false
+  "appId": "io.ionic.starter",
+  "appName": "ionic-react-login",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
 }

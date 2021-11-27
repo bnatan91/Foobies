@@ -1,12 +1,48 @@
-.search{
-  background-color: #bbc4ff;
-  padding-bottom: 0.5rem;
 
-  ion-searchbar{
-    color: #a8a8a8;
-    --background: #fdfdfd;
-    --icon-color: #003cff;
-    --border-radius: 0;
 
-  }
+.homePage {
+
+    ion-header {
+
+        background-color: #FFBC97;
+    }
+
+    ion-footer {
+
+        background-color: #FFBC97;
+        color: white;
+        
+    }
+}
+
+.getStarted {
+
+    height: 100%;
+    background-color: #ffffff;
+    background-image: radial-gradient(#b8b8b8 1px, transparent 1px),
+    radial-gradient(#b8b8b8 1px, #ffffff 1px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+
+     ion-card-title {
+
+        color: black !important;
+        letter-spacing: -0.08rem;
+        font-weight: 900 !important;
+     }
+}
+
+.heading {
+
+    margin-top: 7rem;
+}
+
+.getStartedButton {
+
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    
+}
+.images{
+    height: 250px;
 }
